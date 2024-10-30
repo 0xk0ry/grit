@@ -72,7 +72,13 @@ class Attention(nn.Module):
             k = rearrange(self.fc_k(k), 'b nk (head d) -> b head d nk', head=self.n_heads)
             v = rearrange(self.fc_v(v), 'b nv (head d) -> b head nv d', head=self.n_heads)
 
-            scores = torch.matmul(q, k) / np.sqrt(self.d_k)  # [b h nq nk]
+            try:
+                scores = torch.matmul(q, k) / np.sqrt(self.d_k)  # [b h nq nk]
+            except:
+                print("q shape for matmul:", q.shape)  # Should be [batch, n_heads, nq, d_k]
+                print("k shape for matmul:", k.shape)  # Should be [batch, n_heads, d_k, nk]
+                print("scores shape:", scores.shape)  # Expected shape: [batch, n_heads, nq, nk]
+                raise Exception("Mismatch")
             # if attention_weights is not None:
             # scores = scores * attention_weights
             if attention_mask is not None:
@@ -140,7 +146,13 @@ class MemoryAttention(nn.Module):
             k = rearrange(self.fc_k(k), 'b nk (head d) -> b head d nk', head=self.n_heads)
             v = rearrange(self.fc_v(v), 'b nv (head d) -> b head nv d', head=self.n_heads)
 
-            scores = torch.matmul(q, k) / np.sqrt(self.d_k)  # [b h nq nk]
+            try:
+                scores = torch.matmul(q, k) / np.sqrt(self.d_k)  # [b h nq nk]
+            except:
+                print("q shape for matmul:", q.shape)  # Should be [batch, n_heads, nq, d_k]
+                print("k shape for matmul:", k.shape)  # Should be [batch, n_heads, d_k, nk]
+                print("scores shape:", scores.shape)  # Expected shape: [batch, n_heads, nq, nk]
+                raise Exception("Mismatch")
             if attention_weights is not None:
                 scores = scores * attention_weights
             if attention_mask is not None:
