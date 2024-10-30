@@ -245,7 +245,7 @@ def main(gpu, config):
         torch.distributed.barrier()
 
 
-@hydra.main(config_path="configs/caption", config_name="wikiart")
+@hydra.main(config_path="configs/caption", config_name="wikiart_config")
 def run_main(config: DictConfig) -> None:
     mp.spawn(main, nprocs=config.exp.ngpus_per_node, args=(config,))
 
