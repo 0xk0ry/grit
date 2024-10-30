@@ -82,7 +82,13 @@ class Attention(nn.Module):
         p_attn = self.dropout(p_attn)
 
         # [b h nq nk] * [b h nk dv] = [b h nq dv] -> [b nq h dv] -> [b nq h*dv]
-        out = rearrange(torch.matmul(p_attn, v), 'b h nq dv -> b nq (h dv)')
+        try:
+            out = rearrange(torch.matmul(p_attn, v), 'b h nq dv -> b nq (h dv)')
+        except:
+            print("p_attn shape:", p_attn.shape)
+            print("v shape:", v.shape)
+            print("matmul result shape:", torch.matmul(p_attn, v).shape)
+            raise Exception("Shape mismatch")
 
         out = self.fc_o(out)  # (b_s, nq, d_model)
         return out
