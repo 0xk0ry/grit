@@ -185,6 +185,18 @@ class MultiHeadAttention(Module):
             self.timestep += 1
 
         out = self.attention(queries, keys, values, attention_mask)
-        out = self.dropout(out)
-        out = self.layer_norm(queries + out)
+        try:
+            out = self.dropout(out)
+        except:
+            print("queries shape:", queries.shape)
+            print("out shape:", out.shape)
+            assert queries.shape == out.shape, f"Shape mismatch: queries shape {queries.shape}, out shape {out.shape}"
+            raise Exception('Shape Mismatch')
+        try:
+            out = self.layer_norm(queries + out)
+        except:
+            print("queries shape:", queries.shape)
+            print("out shape:", out.shape)
+            assert queries.shape == out.shape, f"Shape mismatch: queries shape {queries.shape}, out shape {out.shape}"
+            raise Exception('Shape Mismatch')
         return out
