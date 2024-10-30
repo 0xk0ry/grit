@@ -74,8 +74,8 @@ optimizer:
   weight_decay: 0.01
   beta_1: 0.9
   beta_2: 0.99
-  batch_size: 12
-  num_workers: 4
+  batch_size: 8
+  num_workers: 2
   freezing_xe_epochs: 0
   freezing_sc_epochs: 0
   finetune_xe_epochs: 10
