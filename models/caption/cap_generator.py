@@ -149,6 +149,7 @@ class CaptionGenerator(Module):
         except:
             print('word_emb_size', word_emb_size, 'pos_emb_size', pos_emb_size)
             print('input', input, 'seq', seq)
+            print('input', input.shape, 'seq', seq.shape)
 
         return x, mask_x, mask_pad
 
