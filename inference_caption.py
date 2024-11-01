@@ -28,6 +28,10 @@ from datasets.caption.field import TextField
 from datasets.caption.transforms import get_transform
 from engine.utils import nested_tensor_from_tensor_list
 
+#Download image
+import requests
+import io
+
 
 @hydra.main(config_path="configs/caption", config_name="coco_config")
 def run_main(config: DictConfig) -> None:
@@ -38,7 +42,7 @@ def run_main(config: DictConfig) -> None:
 
     # load checkpoint
     if os.path.exists(config.exp.checkpoint):
-        checkpoint = torch.load(config.exp.checkpoint, map_location='cpu')
+        checkpoint = torch.load(config.exp.checkpoint, map_location=torch.device('cpu'))
         missing, unexpected = model.load_state_dict(checkpoint['state_dict'], strict=False)
         print(f"model missing:{len(missing)} model unexpected:{len(unexpected)}")
 
@@ -49,7 +53,11 @@ def run_main(config: DictConfig) -> None:
     text_field = TextField(vocab_path=config.vocab_path if 'vocab_path' in config else config.dataset.vocab_path)
 
     # load image
-    rgb_image = Image.open(config.img_path).convert('RGB')
+    if "https" in config.img_path:
+        res = requests.get(config.img_path)
+        rgb_image = Image.open(io.BytesIO(res.content)).convert("RGB")
+    else:
+        rgb_image = Image.open(config.img_path).convert('RGB')
     image = transform(rgb_image)
     images = nested_tensor_from_tensor_list([image]).to(device)
 
