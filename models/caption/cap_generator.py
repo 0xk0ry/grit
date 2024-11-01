@@ -140,12 +140,6 @@ class CaptionGenerator(Module):
         if self._is_stateful:
             self.running_seq.add_(1)
             seq = self.running_seq
-        print(f"word_emb size {input.shape}")
-        print(f"word_emb\n{input}")
-        print("------------------------------")
-        print(f"seq size {seq.shape}")
-        print(f"seq\n{seq}")
-        print("------------------------------")
         
         x = self.word_emb(input) + self.pos_emb(seq)
 
