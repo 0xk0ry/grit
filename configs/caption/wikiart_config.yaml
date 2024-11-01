@@ -33,7 +33,7 @@ model:
   attn_dropout: 0.2
 
   vocab_size: 10201
-  max_len: 90
+  max_len: 54
   pad_idx: 1
   bos_idx: 2
   eos_idx: 3
