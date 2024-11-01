@@ -140,16 +140,7 @@ class CaptionGenerator(Module):
         if self._is_stateful:
             self.running_seq.add_(1)
             seq = self.running_seq
-        word_emb_size = self.word_emb.num_embeddings
-        pos_emb_size = self.pos_emb.num_embeddings
-        input = input.clamp(0, word_emb_size - 1)
-        seq = seq.clamp(0, pos_emb_size - 1)
-        try:
-            x = self.word_emb(input) + self.pos_emb(seq)
-        except:
-            print('word_emb_size', word_emb_size, 'pos_emb_size', pos_emb_size)
-            print('input', input, 'seq', seq)
-            print('input', input.shape, 'seq', seq.shape)
+        x = self.word_emb(input) + self.pos_emb(seq)
 
         return x, mask_x, mask_pad
 
