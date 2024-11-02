@@ -217,7 +217,7 @@ def main(gpu, config):
 
     best_cider = 0.
     phase = 'ft_xe'
-    for epoch in range(10):
+    for epoch in range(config.optimizer.finetune_xe_epochs):
         train_loss, val_loss = train_xe(model, dataloaders, optimizers=optimizers, epoch=epoch, rank=rank, config=config, scheduler=scheduler)
         samplers['train'].set_epoch(epoch)
 
