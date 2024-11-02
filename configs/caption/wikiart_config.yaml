@@ -78,10 +78,10 @@ optimizer:
   num_workers: 2
   freezing_xe_epochs: 0
   freezing_sc_epochs: 0
-  finetune_xe_epochs: 10
-  finetune_sc_epochs: 10
-  freeze_detector: False
-  freeze_backbone: False
+  finetune_xe_epochs: 100
+  finetune_sc_epochs: 100
+  freeze_detector: True
+  freeze_backbone: True
 
 hydra:
   run:
